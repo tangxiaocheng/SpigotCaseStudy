@@ -47,4 +47,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.7.2"
     implementation "com.squareup.retrofit2:converter-gson:2.7.2"
     implementation "com.google.code.gson:gson:2.8.6"
+
+    // Project help library
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }
