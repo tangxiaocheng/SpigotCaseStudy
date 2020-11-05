@@ -2,6 +2,7 @@ package com.spigot.study.data;
 
 import android.content.Context;
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource.Factory;
 import java.util.List;
 
 public class DeviceInfoRepository {
@@ -22,5 +23,9 @@ public class DeviceInfoRepository {
 
   public void insert(DeviceInfo deviceInfo) {
     SpigotDatabase.databaseWriteExecutor.execute(() -> deviceInfoDao.insert(deviceInfo));
+  }
+
+  public Factory<Integer, DeviceInfo> liveDataOfPagedList() {
+    return deviceInfoDao.pageSizeVideo();
   }
 }

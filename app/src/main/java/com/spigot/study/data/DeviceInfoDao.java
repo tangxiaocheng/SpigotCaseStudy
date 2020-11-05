@@ -1,6 +1,7 @@
 package com.spigot.study.data;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -20,4 +21,8 @@ public interface DeviceInfoDao {
 
   @Query("SELECT * from header_info_table ORDER BY createdTime DESC")
   List<DeviceInfo> getList();
+
+
+  @Query("SELECT * FROM header_info_table ORDER BY createdTime DESC")
+  DataSource.Factory<Integer, DeviceInfo> pageSizeVideo();
 }

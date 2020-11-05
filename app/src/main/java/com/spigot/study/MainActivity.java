@@ -10,8 +10,12 @@ import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.spigot.study.adapter.DeviceInfoListAdapter;
+import com.spigot.study.adapter.DeviceInfoListViewModel;
 import com.spigot.study.model.DeviceInfoModel;
 import com.spigot.study.model.UrlModel;
 import com.spigot.study.util.DeviceUtil;
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     initView();
     androidId = Secure
         .getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+
   }
 
   private void initView() {
@@ -41,6 +46,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     urlTextInputEditText = findViewById(R.id.url_input_et);
     savedUrlsRv = findViewById(R.id.saved_urls_rv);
     saveButton.setOnClickListener(this);
+
+    ViewModelProvider viewModelProvider = new ViewModelProvider(this);
+    DeviceInfoListAdapter adapter = new DeviceInfoListAdapter(getApplicationContext());
+    DeviceInfoListViewModel deviceInfoListViewModel = viewModelProvider
+        .get(DeviceInfoListViewModel.class);
+    deviceInfoListViewModel.getLiveDataOfPagedList().observe(this, pagedList -> {
+      if (pagedList != null) {
+        adapter.submitList(pagedList);
+      }
+    });
+    savedUrlsRv.setAdapter(adapter);
+    savedUrlsRv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
   }
 
 

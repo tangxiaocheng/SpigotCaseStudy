@@ -19,8 +19,8 @@
   <TextView
     android:id="@+id/device_info_tv"
     android:layout_width="match_parent"
-    android:text="@string/this_is_device_s_info"
     android:layout_height="60dp"
+    android:text="@string/this_is_device_s_info"
     app:layout_constraintTop_toBottomOf="@id/guideline_h" />
   <androidx.constraintlayout.widget.Guideline
     android:id="@+id/guideline_V"
@@ -39,6 +39,8 @@
     android:id="@+id/saved_urls_rv"
     android:layout_width="match_parent"
     android:layout_height="0dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -51,9 +53,9 @@
     android:layout_height="0dp"
     android:layout_marginStart="15dp"
     android:layout_marginLeft="15dp"
-    android:text="@string/encodeString"
     android:hint="@string/input_url"
     android:orientation="horizontal"
+    android:text="@string/encodeString"
     app:layout_constraintBottom_toTopOf="@+id/guideline_h"
     app:layout_constraintEnd_toStartOf="@+id/guideline_V"
     app:layout_constraintStart_toStartOf="parent"
