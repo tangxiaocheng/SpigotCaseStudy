@@ -3,6 +3,9 @@ package com.spigot.study.util;
 import android.content.res.Resources;
 import android.os.Build;
 import android.util.Pair;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import com.spigot.study.data.DeviceInfo;
 import com.spigot.study.model.UrlModel;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -11,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DeviceUtil {
+
+
 
   public static UrlModel extractUrl(String url) {
     UrlModel urlModel = null;

@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     initView();
     androidId = Secure
         .getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
-
   }
 
   private void initView() {
