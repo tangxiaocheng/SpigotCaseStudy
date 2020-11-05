@@ -50,11 +50,5 @@ public class ExampleInstrumentedTest {
     System.out.println(DeviceUtil.getDeviceInfo());
   }
 
-  @Test
-  public void networkServiceTest() {
-    NetworkService networkService = RetrofitInstance.getInstance().getRetrofit()
-        .create(NetworkService.class);
-    Call<List<ResponseModel>> postInstallInfo = networkService.postInstallInfo("test");
-  }
 
 }

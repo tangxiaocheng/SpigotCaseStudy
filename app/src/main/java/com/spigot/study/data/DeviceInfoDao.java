@@ -13,12 +13,6 @@ public interface DeviceInfoDao {
   @Insert
   void insert(DeviceInfo deviceInfo);
 
-  @Query("DELETE FROM header_info_table")
-  void deleteAll();
-
-  @Query("SELECT * from header_info_table ORDER BY createdTime DESC")
-  LiveData<List<DeviceInfo>> getListByAlphabetizedInTittle();
-
   @Query("SELECT * from header_info_table ORDER BY createdTime DESC")
   List<DeviceInfo> getList();
 

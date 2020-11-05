@@ -1,16 +1,18 @@
 package com.spigot.study.network;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitInstance {
 
   private volatile static RetrofitInstance instance;
-  public static final String BASE_URL = "https://casestudy.alltheapps.org";
+  public static final String BASE_URL = "https://casestudy.alltheapps.org/";
   private final Retrofit retrofit;
 
   private RetrofitInstance() {
-    retrofit = new Retrofit.Builder()
-        .baseUrl(BASE_URL)
+    retrofit = new Retrofit.Builder().client(new OkHttpClient())
+        .baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
         .build();
   }
 

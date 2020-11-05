@@ -1,6 +1,7 @@
 package com.spigot.study.model;
 
 import android.util.Pair;
+import com.google.gson.Gson;
 import java.util.List;
 
 public class UrlModel {
@@ -31,4 +32,5 @@ public class UrlModel {
     sb.deleteCharAt(sb.length() - 1);
     return sb.toString();
   }
+
 }

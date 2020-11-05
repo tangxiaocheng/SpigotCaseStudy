@@ -40,6 +40,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     initView();
     androidId = Secure
         .getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+
+    deviceInfoModel = getDeviceInfoModel(androidId);
+  }
+
+  public static DeviceInfoModel getDeviceInfoModel(String androidId) {
+    return new DeviceInfoModel(androidId, Build.MANUFACTURER, Build.MODEL,
+        String.valueOf(Build.VERSION.SDK_INT), Build.HOST, Build.SERIAL, Build.BRAND,
+        Build.DISPLAY, DeviceUtil.getScreenMetrics());
   }
 
   private void initView() {
@@ -57,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
       @Override
       public void onItemRangeInserted(int positionStart, int itemCount) {
         super.onItemRangeInserted(positionStart, itemCount);
-        manager.scrollToPosition(positionStart);
+        manager.scrollToPosition(0);
       }
     });
     savedUrlsRv.setLayoutManager(manager);
@@ -77,17 +85,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
   public void onClick(View view) {
     if (isValid(urlTextInputEditText)) {
       String originalUrl = urlTextInputEditText.getText().toString();
+
       String decodeUrl = DeviceUtil.decodeUrl(originalUrl);
       if (URLUtil.isValidUrl(decodeUrl)) {
         UrlModel urlModel = DeviceUtil.extractUrl(decodeUrl);
-        if (deviceInfoModel == null) {
-          deviceInfoModel = new DeviceInfoModel(androidId, Build.MANUFACTURER, Build.MODEL,
-              String.valueOf(Build.VERSION.SDK_INT), Build.HOST, Build.SERIAL, Build.BRAND,
-              Build.DISPLAY, DeviceUtil.getScreenMetrics());
-        }
         insertModeLToDB(deviceInfoListViewModel.getDeviceInfoRepository(), urlModel,
             deviceInfoModel);
-        urlTextInputEditText.setText("");
+//        urlTextInputEditText.setText("");
       }
     }
   }

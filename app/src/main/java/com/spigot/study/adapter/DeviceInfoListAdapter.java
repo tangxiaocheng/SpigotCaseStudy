@@ -120,7 +120,7 @@ public class DeviceInfoListAdapter extends
     }
 
     public void bindData(DeviceInfo deviceInfo) {
-      infoTv.setText(deviceInfo.getJson());
+      infoTv.setText(deviceInfo.getId() + ":" + deviceInfo.getJson());
     }
 
     public void clear() {
