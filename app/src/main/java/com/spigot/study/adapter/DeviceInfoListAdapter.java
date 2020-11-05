@@ -11,6 +11,7 @@ import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.spigot.study.R;
 import com.spigot.study.data.DeviceInfo;
+import com.spigot.study.util.SpigotConstant;
 
 public class DeviceInfoListAdapter extends
     PagedListAdapter<DeviceInfo, RecyclerView.ViewHolder> {
@@ -21,7 +22,7 @@ public class DeviceInfoListAdapter extends
 
   public DeviceInfoListAdapter(
       Context context) {
-    super(new DeviceInfoDiffCallBack());
+    super(SpigotConstant.DIFF_ITEM_CALLBACK);
     this.layoutInflater = LayoutInflater.from(context);
   }
 
@@ -30,11 +31,11 @@ public class DeviceInfoListAdapter extends
   public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     switch (viewType) {
       case TYPE_LEFT: {
-        View itemView = layoutInflater.inflate(R.layout.device_info_list_item_small, parent, false);
+        View itemView = layoutInflater.inflate(R.layout.device_info_list_item_left, parent, false);
         return new LeftViewHolder(itemView);
       }
       case TYPE_RIGHT: {
-        View itemView = layoutInflater.inflate(R.layout.device_info_list_item_big, parent, false);
+        View itemView = layoutInflater.inflate(R.layout.device_info_list_item_right, parent, false);
         return new RightViewHolder(itemView);
       }
       default:
@@ -44,10 +45,8 @@ public class DeviceInfoListAdapter extends
 
   @Override
   public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
     DeviceInfo deviceInfo1 = getCurrentList().get(position);
-    int generateViewType = deviceInfo1.getId() % 2;
-    switch (generateViewType) {
+    switch (deviceInfo1.getViewType()) {
       case TYPE_LEFT: {
         bindLeftData((LeftViewHolder) holder, deviceInfo1);
         break;
@@ -80,7 +79,7 @@ public class DeviceInfoListAdapter extends
 
   @Override
   public int getItemViewType(int position) {
-    return getCurrentList().get(position).getId() % 2;
+    return getCurrentList().get(position).getViewType();
   }
 
   static class LeftViewHolder extends RecyclerView.ViewHolder {

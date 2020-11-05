@@ -5,6 +5,14 @@ import java.util.List;
 
 public class UrlModel {
 
+  public String getBaseUrl() {
+    return baseUrl;
+  }
+
+  public List<Pair<String, String>> getPairList() {
+    return pairList;
+  }
+
   String baseUrl;
   List<Pair<String, String>> pairList;
 

@@ -25,8 +25,7 @@ public abstract class SpigotDatabase extends RoomDatabase {
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
           super.onOpen(db);
-          databaseWriteExecutor.execute(
-              SpigotDatabase::insertMockData);
+//          databaseWriteExecutor.execute( SpigotDatabase::insertMockData);
         }
       };
 

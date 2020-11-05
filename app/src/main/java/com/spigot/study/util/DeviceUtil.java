@@ -16,7 +16,6 @@ import java.util.Arrays;
 public class DeviceUtil {
 
 
-
   public static UrlModel extractUrl(String url) {
     UrlModel urlModel = null;
     if (null != url && !"".equals(url)) {

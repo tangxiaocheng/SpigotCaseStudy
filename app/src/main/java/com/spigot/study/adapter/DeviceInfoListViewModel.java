@@ -13,9 +13,15 @@ public class DeviceInfoListViewModel extends AndroidViewModel {
 
   private final LiveData<PagedList<DeviceInfo>> liveDataOfPagedList;
 
+  public DeviceInfoRepository getDeviceInfoRepository() {
+    return deviceInfoRepository;
+  }
+
+  private final DeviceInfoRepository deviceInfoRepository;
+
   public DeviceInfoListViewModel(Application application) {
     super(application);
-    DeviceInfoRepository deviceInfoRepository = new DeviceInfoRepository(application);
+    deviceInfoRepository = new DeviceInfoRepository(application);
     PagedList.Config config = new PagedList.Config.Builder().setEnablePlaceholders(false)
         .setPrefetchDistance(20)
         .setInitialLoadSizeHint(10).setPageSize(10).build();
