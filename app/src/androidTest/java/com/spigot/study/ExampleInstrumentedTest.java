@@ -6,10 +6,15 @@ import android.content.Context;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import com.spigot.study.model.UrlModel;
+import com.spigot.study.network.NetworkService;
+import com.spigot.study.network.ResponseModel;
+import com.spigot.study.network.RetrofitInstance;
 import com.spigot.study.util.DeviceUtil;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import retrofit2.Call;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -42,8 +47,14 @@ public class ExampleInstrumentedTest {
 
   @Test
   public void printDeviceInfo() {
-
     System.out.println(DeviceUtil.getDeviceInfo());
+  }
+
+  @Test
+  public void networkServiceTest() {
+    NetworkService networkService = RetrofitInstance.getInstance().getRetrofit()
+        .create(NetworkService.class);
+    Call<List<ResponseModel>> postInstallInfo = networkService.postInstallInfo("test");
   }
 
 }
