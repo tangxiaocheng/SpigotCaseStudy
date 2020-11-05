@@ -1,13 +1,15 @@
 package com.spigot.study;
 
-import android.content.Context;
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import static org.junit.Assert.assertEquals;
 
+import android.content.Context;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+import com.spigot.study.model.UrlModel;
+import com.spigot.study.util.DeviceUtil;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.*;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -17,10 +19,25 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
 
+  String originalUrl = "https://m.alltheapps.org/get/app?userId=B1C92850-8202-44AC-B514-1849569F37B6&implementationid=cl-and-erp&trafficSource=erp&userClass=20200101";
+
   @Test
   public void useAppContext() {
     // Context of the app under test.
     Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
     assertEquals("com.spigot.study", appContext.getPackageName());
   }
+
+  @Test
+  public void extractUrlIsCorrect() {
+    UrlModel expected = DeviceUtil.extractUrl(originalUrl);
+    Assert.assertEquals(expected.toUrl(), originalUrl);
+  }
+
+  @Test
+  public void encodeAndDecodeIsCorrect() {
+    String encodeUrl = DeviceUtil.encodeUrl(originalUrl);
+    Assert.assertEquals(DeviceUtil.decodeUrl(encodeUrl), originalUrl);
+  }
+
 }

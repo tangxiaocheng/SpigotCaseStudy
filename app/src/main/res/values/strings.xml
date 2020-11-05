@@ -1,3 +1,6 @@
 <resources>
   <string name="app_name">SpigotCaseStudy</string>
+  <string name="input_url">input url</string>
+  <string name="save">Save</string>
+  <string name="this_is_device_s_info">this is device\'s info</string>
 </resources>
