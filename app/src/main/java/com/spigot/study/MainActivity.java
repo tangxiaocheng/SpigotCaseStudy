@@ -20,8 +20,16 @@ import com.spigot.study.adapter.DeviceInfoListViewModel;
 import com.spigot.study.data.DeviceInfo;
 import com.spigot.study.data.DeviceInfoRepository;
 import com.spigot.study.model.DeviceInfoModel;
+import com.spigot.study.model.HeaderModel;
 import com.spigot.study.model.UrlModel;
+import com.spigot.study.network.NetworkService;
+import com.spigot.study.network.ResponseModel;
+import com.spigot.study.network.RetrofitInstance;
 import com.spigot.study.util.DeviceUtil;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
@@ -92,6 +100,22 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         insertModeLToDB(deviceInfoListViewModel.getDeviceInfoRepository(), urlModel,
             deviceInfoModel);
 //        urlTextInputEditText.setText("");
+        NetworkService networkService = RetrofitInstance.getInstance(this).getRetrofit()
+            .create(NetworkService.class);
+        networkService
+            .postInstallInfo(new HeaderModel(deviceInfoModel, urlModel.getPairList())).enqueue(
+            new Callback<ResponseModel>() {
+              @Override
+              public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                Timber.d("Randy%s", response.toString());
+                Timber.d("Randy%s", response.body().getRequest());
+              }
+
+              @Override
+              public void onFailure(Call<ResponseModel> call, Throwable t) {
+
+              }
+            });
       }
     }
   }

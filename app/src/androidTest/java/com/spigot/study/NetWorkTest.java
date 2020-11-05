@@ -2,7 +2,9 @@ package com.spigot.study;
 
 import static com.spigot.study.MainActivity.getDeviceInfoModel;
 
+import android.content.Context;
 import android.util.Pair;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.spigot.study.model.HeaderModel;
 import com.spigot.study.network.NetworkService;
@@ -15,13 +17,15 @@ import org.junit.runner.RunWith;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 @RunWith(AndroidJUnit4.class)
 public class NetWorkTest {
 
   @Test
   public void networkServiceTest() {
-    NetworkService networkService = RetrofitInstance.getInstance().getRetrofit()
+    Context context = ApplicationProvider.getApplicationContext();
+    NetworkService networkService = RetrofitInstance.getInstance(context).getRetrofit()
         .create(NetworkService.class);
     List<Pair<String, String>> list = new ArrayList<>(10);
     for (int i = 0; i < 10; i++) {
@@ -33,6 +37,7 @@ public class NetWorkTest {
       @Override
       public void onResponse(Call<ResponseModel> call,
           Response<ResponseModel> response) {
+        Timber.d("Test:"+response.body().getRequest().toString());
       }
 
       @Override
