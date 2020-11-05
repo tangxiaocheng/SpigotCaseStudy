@@ -40,4 +40,10 @@ public class ExampleInstrumentedTest {
     Assert.assertEquals(DeviceUtil.decodeUrl(encodeUrl), originalUrl);
   }
 
+  @Test
+  public void printDeviceInfo() {
+
+    System.out.println(DeviceUtil.getDeviceInfo());
+  }
+
 }
