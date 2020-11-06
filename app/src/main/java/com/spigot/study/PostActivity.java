@@ -9,6 +9,8 @@ import com.google.gson.reflect.TypeToken;
 import com.spigot.study.network.NetworkService;
 import com.spigot.study.network.ResponseModel;
 import com.spigot.study.network.RetrofitInstance;
+import com.uber.autodispose.AutoDispose;
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import java.lang.reflect.Type;
@@ -38,10 +40,14 @@ public class PostActivity extends AppCompatActivity implements Callback<Response
     Retrofit retrofit = RetrofitInstance.getInstance(this.getApplicationContext()).getRetrofit();
     NetworkService networkService = retrofit.create(NetworkService.class);
     Gson gson = new Gson();
-    Type type = new TypeToken<HashMap<String, String>>() {}.getType();
+    Type type = new TypeToken<HashMap<String, String>>() {
+    }.getType();
     HashMap<String, String> map = gson.fromJson(json, type);
-    networkService.postInstallInfoWithRxJava(map).subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread()).subscribe(this::updateUI);
+    networkService.postInstallInfoWithRxJava(map)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(PostActivity.this)))
+        .subscribe(this::updateUI);
   }
 
   private void updateUI(ResponseModel responseModel) {
