@@ -9,6 +9,8 @@ import com.google.gson.reflect.TypeToken;
 import com.spigot.study.network.NetworkService;
 import com.spigot.study.network.ResponseModel;
 import com.spigot.study.network.RetrofitInstance;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import retrofit2.Call;
@@ -28,14 +30,30 @@ public class PostActivity extends AppCompatActivity implements Callback<Response
     displayTv = findViewById(R.id.display_tv);
     json = getIntent().getStringExtra(MainActivity.KEY_JSON);
     // TODO deal with lifecycle case since we have a network request in this activity
-    post();
+//    post();
+    postRxJava();
+  }
+
+  private void postRxJava() {
+    Retrofit retrofit = RetrofitInstance.getInstance(this.getApplicationContext()).getRetrofit();
+    NetworkService networkService = retrofit.create(NetworkService.class);
+    Gson gson = new Gson();
+    Type type = new TypeToken<HashMap<String, String>>() {}.getType();
+    HashMap<String, String> map = gson.fromJson(json, type);
+    networkService.postInstallInfoWithRxJava(map).subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread()).subscribe(this::updateUI);
+  }
+
+  private void updateUI(ResponseModel responseModel) {
+    displayTv.setText(responseModel.toString());
   }
 
   private void post() {
     Retrofit retrofit = RetrofitInstance.getInstance(this.getApplicationContext()).getRetrofit();
     NetworkService networkService = retrofit.create(NetworkService.class);
     Gson gson = new Gson();
-    Type type = new TypeToken<HashMap<String, String>>() {}.getType();
+    Type type = new TypeToken<HashMap<String, String>>() {
+    }.getType();
     HashMap<String, String> map = gson.fromJson(json, type);
     networkService.postInstallInfo(map).enqueue(this);
   }

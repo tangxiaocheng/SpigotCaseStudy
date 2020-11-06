@@ -33,4 +33,13 @@ public class ResponseModel {
   public void setErrorMsg(String errorMsg) {
     this.errorMsg = errorMsg;
   }
+
+  @Override
+  public String toString() {
+    return "ResponseModel{" +
+        "successful=" + successful +
+        ", errorMsg='" + errorMsg + '\'' +
+        ", request=" + request +
+        '}';
+  }
 }
