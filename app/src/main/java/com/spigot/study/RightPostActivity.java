@@ -16,8 +16,8 @@ import java.util.HashMap;
 import retrofit2.Retrofit;
 
 /*
-*
-* */
+ * Using AutoDisposable for RxJava with Lifecycle Architecture Component
+ * */
 public class RightPostActivity extends AppCompatActivity {
 
   private String jsonString;

@@ -4,6 +4,7 @@ import android.content.Context;
 import com.chuckerteam.chucker.api.ChuckerCollector;
 import com.chuckerteam.chucker.api.ChuckerInterceptor;
 import com.chuckerteam.chucker.api.ChuckerInterceptor.Builder;
+import com.spigot.study.BuildConfig;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -17,12 +18,16 @@ public class RetrofitInstance {
 
   private RetrofitInstance(Context context) {
 
-    ChuckerCollector chuckerCollector = new ChuckerCollector(context);
-    ChuckerInterceptor chuckerInterceptor = new Builder(context).alwaysReadResponseBody(true)
-        .collector(chuckerCollector).build();
-    OkHttpClient client = new OkHttpClient.Builder()
-        .addInterceptor(chuckerInterceptor)
-        .build();
+    OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+    if (BuildConfig.DEBUG) {
+      ChuckerCollector chuckerCollector = new ChuckerCollector(context);
+      ChuckerInterceptor chuckerInterceptor = new Builder(context).alwaysReadResponseBody(true)
+          .collector(chuckerCollector).build();
+      builder.addInterceptor(chuckerInterceptor);
+    }
+
+    OkHttpClient client = builder.build();
 
     retrofit = new Retrofit.Builder().client(client)
         .baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())

@@ -17,7 +17,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 /*
- *
+ *Problematic here. Compare to the RightActivity, it lack of life cycle awareness.
  * */
 public class LeftPostActivity extends AppCompatActivity implements Callback<ResponseModel> {
 
