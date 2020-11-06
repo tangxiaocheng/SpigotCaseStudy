@@ -2,6 +2,7 @@ package com.spigot.study.data;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import com.google.gson.Gson;
 
 @Entity(tableName = "header_info_table")
 public class DeviceInfo {
@@ -34,10 +35,12 @@ public class DeviceInfo {
   public int getId() {
     return id;
   }
+
   public int getViewType() {
     //fake view type
-    return id%2;
+    return id % 2;
   }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

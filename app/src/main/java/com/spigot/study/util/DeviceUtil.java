@@ -2,32 +2,37 @@ package com.spigot.study.util;
 
 import android.content.res.Resources;
 import android.os.Build;
-import android.util.Pair;
 import com.spigot.study.model.UrlModel;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.ArrayList;
+import java.util.Map;
+import timber.log.Timber;
 
 public class DeviceUtil {
 
 
-  public static UrlModel extractUrl(String url) {
-    UrlModel urlModel = null;
+  public static UrlModel extractUrl(String url,
+      final Map<String, String> map) {
+    UrlModel urlModel = new UrlModel();
     if (null != url && !"".equals(url)) {
       int pos = url.indexOf("?");
-      String baseUrl = url.substring(0, pos);
-      String pairString = url.substring(pos + 1);
-      String[] parameters = pairString.split("&");
-      ArrayList<Pair<String, String>> list = new ArrayList<>(parameters.length);
-      for (String pairStr : parameters
-      ) {
-        String[] pairArr = pairStr.split("=");
-        Pair<String, String> pair = new Pair<>(pairArr[0], pairArr[1]);
-        list.add(pair);
+      if (pos != -1) {
+        urlModel.setBaseUrl(url.substring(0, pos));
+        String pairString = url.substring(pos + 1);
+        String[] parameters = pairString.split("&");
+        for (String pairStr : parameters) {
+          String[] pairArr = pairStr.split("=");
+          if (null != pairArr && pairArr.length == 2) {
+            map.put(pairArr[0], pairArr[1]);
+          }
+        }
+      } else {
+        Timber.e("no parameters or invalid url");
       }
-      urlModel = new UrlModel(baseUrl, list);
+
     }
+    urlModel.setParaMap(map);
     return urlModel;
   }
 

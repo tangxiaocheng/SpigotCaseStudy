@@ -1,8 +1,6 @@
 package com.spigot.study.model;
 
-import android.util.Pair;
-import com.google.gson.Gson;
-import java.util.List;
+import java.util.Map;
 
 public class UrlModel {
 
@@ -10,24 +8,27 @@ public class UrlModel {
     return baseUrl;
   }
 
-  public List<Pair<String, String>> getPairList() {
-    return pairList;
+  public Map<String, String> getParaMap() {
+    return paraMap;
+  }
+
+  public void setParaMap(Map<String, String> paraMap) {
+    this.paraMap = paraMap;
+  }
+
+  public void setBaseUrl(String baseUrl) {
+    this.baseUrl = baseUrl;
   }
 
   String baseUrl;
-  List<Pair<String, String>> pairList;
 
-  public UrlModel(String baseUrl,
-      List<Pair<String, String>> pairList) {
-    this.baseUrl = baseUrl;
-    this.pairList = pairList;
-  }
+  Map<String, String> paraMap;
 
   public String toUrl() {
     StringBuilder sb = new StringBuilder();
     sb.append(baseUrl).append("?");
-    for (Pair<String, String> pair : pairList) {
-      sb.append(pair.first).append("=").append(pair.second).append("&");
+    for (String key : paraMap.keySet()) {
+      sb.append(key).append("=").append(paraMap.get(key)).append("&");
     }
     sb.deleteCharAt(sb.length() - 1);
     return sb.toString();

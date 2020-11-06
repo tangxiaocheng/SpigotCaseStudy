@@ -52,7 +52,6 @@
     android:layout_width="0dp"
     android:layout_height="0dp"
     android:layout_marginStart="15dp"
-    android:layout_marginLeft="15dp"
     android:hint="@string/input_url"
     android:orientation="horizontal"
     android:text="@string/encodeString"
