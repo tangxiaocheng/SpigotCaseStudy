@@ -1,5 +1,7 @@
 package com.spigot.study.network;
 
+import androidx.annotation.NonNull;
+import com.spigot.study.util.Util;
 import java.util.Map;
 
 public class ResponseModel {
@@ -34,5 +36,11 @@ public class ResponseModel {
     this.errorMsg = errorMsg;
   }
 
+
+  @NonNull
+  @Override
+  public String toString() {
+    return Util.prettyJson(this);
+  }
 
 }

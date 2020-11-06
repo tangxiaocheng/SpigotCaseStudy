@@ -7,13 +7,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.spigot.study.R;
 import com.spigot.study.data.DeviceInfo;
+import com.spigot.study.util.Util;
+import java.util.HashMap;
 
 class LeftViewHolder extends RecyclerView.ViewHolder {
 
   private final OnItemClickListener onItemClickListener;
   private final TextView infoTv;
   private final Button postBtn;
-  private final TextView postResponseTv;
+  private final Button formatBtn;
 
   public LeftViewHolder(OnItemClickListener onItemClickListener,
       @NonNull View itemView) {
@@ -21,19 +23,24 @@ class LeftViewHolder extends RecyclerView.ViewHolder {
     this.onItemClickListener = onItemClickListener;
     infoTv = itemView.findViewById(R.id.info_tv);
     postBtn = itemView.findViewById(R.id.post);
-    postResponseTv = itemView.findViewById(R.id.post_response_tv);
+    formatBtn = itemView.findViewById(R.id.format);
+
   }
 
   public void bindData(DeviceInfo deviceInfo) {
+
     infoTv.setText(deviceInfo.getJson());
     if (onItemClickListener != null) {
       postBtn.setOnClickListener(view -> onItemClickListener.onItemClick(deviceInfo));
+      formatBtn.setOnClickListener(view -> {
+        HashMap<String, String> map = Util.jsonToMap(deviceInfo.getJson());
+        infoTv.setText(Util.prettyJson(map));
+      });
     }
   }
 
   public void clear() {
     infoTv.invalidate();
     postBtn.invalidate();
-    postResponseTv.invalidate();
   }
 }

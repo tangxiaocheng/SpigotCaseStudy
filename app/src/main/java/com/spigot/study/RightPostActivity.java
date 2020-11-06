@@ -15,7 +15,9 @@ import io.reactivex.schedulers.Schedulers;
 import java.util.HashMap;
 import retrofit2.Retrofit;
 
-//Rxjava
+/*
+*
+* */
 public class RightPostActivity extends AppCompatActivity {
 
   private String jsonString;

@@ -45,7 +45,7 @@ public class Util {
     String afterDecode = null;
     try {
       afterDecode = URLDecoder.decode(originalUrl, SpigotConstant.UTF_8);
-    } catch (UnsupportedEncodingException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
     return afterDecode;
@@ -87,4 +87,7 @@ public class Util {
     return map;
   }
 
+  public static String prettyJson(Object obj) {
+    return SpigotConstant.PRETTY_GSON.toJson(obj);
+  }
 }

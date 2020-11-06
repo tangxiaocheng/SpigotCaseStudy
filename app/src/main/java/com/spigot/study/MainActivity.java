@@ -6,10 +6,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.URLUtil;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,6 +29,7 @@ import com.spigot.study.util.Util;
 import com.spigot.study.viewmodel.DeviceInfoListViewModel;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener,
@@ -43,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    deviceInfoModel = Util.getDeviceInfoModel(androidId);
     androidId = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+    deviceInfoModel = Util.getDeviceInfoModel(androidId);
 
     findView();
     bindData();
@@ -56,12 +59,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
     deviceInfoTv = findViewById(R.id.device_info_tv);
     urlTextInputEditText = findViewById(R.id.url_input_et);
     savedUrlsRv = findViewById(R.id.saved_urls_rv);
-    findViewById(R.id.save_button).setOnClickListener(this);
+    findViewById(R.id.parse_button).setOnClickListener(this);
   }
 
 
   private void bindData() {
-    deviceInfoTv.setText(deviceInfoModel.toString());
+//    deviceInfoTv.setText(Util.prettyJson(deviceInfoModel));
+    deviceInfoTv.setText(String.format("Device Info:\n%s", deviceInfoModel.toString()));
     ViewModelProvider viewModelProvider = new ViewModelProvider(this);
     DeviceInfoListAdapter adapter = new DeviceInfoListAdapter(this, getApplicationContext());
     LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
@@ -84,13 +88,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
 
   @Override
   public void onClick(View view) {
-    if (urlTextInputEditText.getText().length() > 0) {
+    if (Objects.requireNonNull(urlTextInputEditText.getText()).length() > 0) {
       decodeUrl();
     }
   }
 
   private void decodeUrl() {
-    String originalUrl = urlTextInputEditText.getText().toString();
+    String originalUrl = Objects.requireNonNull(urlTextInputEditText.getText()).toString();
     UrlModel urlModel;
     final Map<String, String> map = new HashMap<>(deviceInfoModel);
     if (!URLUtil.isValidUrl(originalUrl)) {
@@ -100,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
         insertParasToDB(deviceInfoListViewModel.getDeviceInfoRepository(), urlModel);
       } else {
         Timber.e("Invalid url");
+        Toast.makeText(this,"Invalid url",Toast.LENGTH_SHORT).show();
       }
     } else {
       urlModel = Util.extractUrl(originalUrl, map);

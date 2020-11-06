@@ -3,6 +3,8 @@ package com.spigot.study.util;
 import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.spigot.study.data.DeviceInfo;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,4 +53,5 @@ public class SpigotConstant {
     }
   };
 
+  public static final Gson PRETTY_GSON = new GsonBuilder().setPrettyPrinting().create();
 }
