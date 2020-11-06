@@ -2,11 +2,8 @@ package com.spigot.study;
 
 import static com.spigot.study.adapter.DeviceInfoListAdapter.TYPE_LEFT;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings.Secure;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.URLUtil;
@@ -36,19 +33,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
     OnItemClickListener {
 
   private TextInputEditText urlTextInputEditText;
-  private String androidId;
-  private Map<String, String> deviceInfoModel;
+  private Map<String, String> deviceInfoMap;
   private DeviceInfoListViewModel deviceInfoListViewModel;
   private TextView deviceInfoTv;
   private RecyclerView savedUrlsRv;
 
-  @SuppressLint("HardwareIds")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    androidId = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
-    deviceInfoModel = Util.getDeviceInfoModel(androidId);
-
+    deviceInfoMap = Util.getDeviceInfoModel(Util.getAndroidID(getApplicationContext().getContentResolver()));
     findView();
     bindData();
   }
@@ -64,8 +57,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
 
 
   private void bindData() {
-//    deviceInfoTv.setText(Util.prettyJson(deviceInfoModel));
-    deviceInfoTv.setText(String.format("Device Info:\n%s", deviceInfoModel.toString()));
+    deviceInfoTv.setText(String.format("Device Info:\n%s", deviceInfoMap.toString()));
     ViewModelProvider viewModelProvider = new ViewModelProvider(this);
     DeviceInfoListAdapter adapter = new DeviceInfoListAdapter(this, getApplicationContext());
     LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
@@ -96,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
   private void decodeUrl() {
     String originalUrl = Objects.requireNonNull(urlTextInputEditText.getText()).toString();
     UrlModel urlModel;
-    final Map<String, String> map = new HashMap<>(deviceInfoModel);
+    final Map<String, String> map = new HashMap<>(deviceInfoMap);
     if (!URLUtil.isValidUrl(originalUrl)) {
       String decodeUrl = Util.decodeUrl(originalUrl);
       if (URLUtil.isValidUrl(decodeUrl)) {
@@ -104,9 +96,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
         insertParasToDB(deviceInfoListViewModel.getDeviceInfoRepository(), urlModel);
       } else {
         Timber.e("Invalid url");
-        Toast.makeText(this,"Invalid url",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Invalid url", Toast.LENGTH_SHORT).show();
       }
     } else {
+      // In case the URL might be a valid url.
       urlModel = Util.extractUrl(originalUrl, map);
       insertParasToDB(deviceInfoListViewModel.getDeviceInfoRepository(), urlModel);
     }

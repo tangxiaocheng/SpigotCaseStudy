@@ -10,13 +10,15 @@ import com.spigot.study.network.RetrofitInstance;
 import com.spigot.study.util.SpigotConstant;
 import com.spigot.study.util.Util;
 import java.util.HashMap;
+import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+
 /*
-*
-* */
+ *
+ * */
 public class LeftPostActivity extends AppCompatActivity implements Callback<ResponseModel> {
 
   private String jsonString;
@@ -43,7 +45,7 @@ public class LeftPostActivity extends AppCompatActivity implements Callback<Resp
   public void onResponse(@NonNull Call<ResponseModel> call,
       @NonNull Response<ResponseModel> response) {
     if (response.isSuccessful()) {
-      displayTv.setText(response.body().getRequest().toString());
+      displayTv.setText(Util.prettyJson(Objects.requireNonNull(response.body()).getRequest()));
     } else {
       displayTv.setText(response.message());
     }

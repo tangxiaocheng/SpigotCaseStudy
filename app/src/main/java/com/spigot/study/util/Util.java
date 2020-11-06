@@ -2,7 +2,10 @@ package com.spigot.study.util;
 
 import static com.spigot.study.util.SpigotConstant.DEVICE_INFO_MAP;
 
+import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.res.Resources;
+import android.provider.Settings.Secure;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.spigot.study.model.UrlModel;
@@ -89,5 +92,10 @@ public class Util {
 
   public static String prettyJson(Object obj) {
     return SpigotConstant.PRETTY_GSON.toJson(obj);
+  }
+
+  @SuppressLint("HardwareIds")
+  public   static String getAndroidID(ContentResolver resolver) {
+    return Secure.getString(resolver, Secure.ANDROID_ID);
   }
 }
