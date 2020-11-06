@@ -7,8 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.spigot.study.R;
-import com.spigot.study.data.DeviceInfo;
+import com.spigot.study.room.DeviceInfo;
 import com.spigot.study.util.SpigotConstant;
+import java.util.Objects;
 
 public class DeviceInfoListAdapter extends
     PagedListAdapter<DeviceInfo, RecyclerView.ViewHolder> {
@@ -44,8 +45,8 @@ public class DeviceInfoListAdapter extends
 
   @Override
   public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-    DeviceInfo deviceInfo1 = getCurrentList().get(position);
-    switch (deviceInfo1.getViewType()) {
+    DeviceInfo deviceInfo1 = Objects.requireNonNull(getCurrentList()).get(position);
+    switch (Objects.requireNonNull(deviceInfo1).getViewType()) {
       case TYPE_LEFT: {
         bindLeftData((LeftViewHolder) holder, deviceInfo1);
         break;
@@ -77,7 +78,7 @@ public class DeviceInfoListAdapter extends
 
   @Override
   public int getItemViewType(int position) {
-    return getCurrentList().get(position).getViewType();
+    return Objects.requireNonNull(Objects.requireNonNull(getCurrentList()).get(position)).getViewType();
   }
 
 }

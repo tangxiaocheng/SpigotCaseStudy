@@ -31,7 +31,7 @@ public class Util {
         String[] parameters = pairString.split("&");
         for (String pairStr : parameters) {
           String[] pairArr = pairStr.split("=");
-          if (null != pairArr && pairArr.length == 2) {
+          if (pairArr.length == 2) {
             map.put(pairArr[0], pairArr[1]);
           }
         }
