@@ -1,5 +1,9 @@
 # SpigotCaseStudy
-Break down:
+
+![detail implementation](Spigot study case.pdf)
+Please refer to the pdf for the detail implementation.
+
+Initial Breakdown:
 1. Write a function to get all interesting device information. (Get a UUID would be a tricky one)
 2. In an EditText, we can input the url in it. The input url could be an encoded URL. (copy and paste into it). Do a data validation and Decode the URL.
 3. For the decoded url, it might have key-value pairs in its parameters. Extract those pairs into two parts: URL Base and Pairs string.
