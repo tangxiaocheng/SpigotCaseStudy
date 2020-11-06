@@ -1,7 +1,6 @@
 # SpigotCaseStudy
 
-![detail implementation](Spigot study case.pdf)
-Please refer to the pdf for the detail implementation.
+Please refer to the [pdf](https://github.com/tangxiaocheng/SpigotCaseStudy/blob/master/Spigot%20study%20case.pdf) for the detail implementation.
 
 Initial Breakdown:
 1. Write a function to get all interesting device information. (Get a UUID would be a tricky one)
