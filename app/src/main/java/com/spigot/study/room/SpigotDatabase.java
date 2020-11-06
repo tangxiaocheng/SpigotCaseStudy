@@ -1,4 +1,4 @@
-package com.spigot.study.data;
+package com.spigot.study.room;
 
 import android.content.Context;
 import androidx.room.Database;

@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.spigot.study.data.DeviceInfo;
+import com.spigot.study.room.DeviceInfo;
 import java.util.HashMap;
 import java.util.Map;
 

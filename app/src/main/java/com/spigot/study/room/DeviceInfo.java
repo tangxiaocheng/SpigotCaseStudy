@@ -1,4 +1,4 @@
-package com.spigot.study.data;
+package com.spigot.study.room;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

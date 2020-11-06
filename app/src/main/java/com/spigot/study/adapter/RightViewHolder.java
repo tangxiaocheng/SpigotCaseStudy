@@ -6,7 +6,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.spigot.study.R;
-import com.spigot.study.data.DeviceInfo;
+import com.spigot.study.room.DeviceInfo;
 import com.spigot.study.util.Util;
 import java.util.HashMap;
 

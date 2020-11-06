@@ -5,8 +5,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
-import com.spigot.study.data.DeviceInfo;
-import com.spigot.study.data.DeviceInfoRepository;
+import com.spigot.study.room.DeviceInfo;
+import com.spigot.study.room.DeviceInfoRepository;
 
 public class DeviceInfoListViewModel extends AndroidViewModel {
 

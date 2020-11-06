@@ -20,9 +20,9 @@ public class UrlModel {
     this.baseUrl = baseUrl;
   }
 
-  String baseUrl;
+  private String baseUrl;
 
-  Map<String, String> paraMap;
+  private Map<String, String> paraMap;
 
   public String toUrl() {
     StringBuilder sb = new StringBuilder();

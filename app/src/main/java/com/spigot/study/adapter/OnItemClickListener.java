@@ -1,6 +1,6 @@
 package com.spigot.study.adapter;
 
-import com.spigot.study.data.DeviceInfo;
+import com.spigot.study.room.DeviceInfo;
 
 public interface OnItemClickListener {
 
