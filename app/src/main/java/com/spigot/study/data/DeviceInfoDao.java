@@ -16,7 +16,6 @@ public interface DeviceInfoDao {
   @Query("SELECT * from header_info_table ORDER BY createdTime DESC")
   List<DeviceInfo> getList();
 
-
   @Query("SELECT * FROM header_info_table ORDER BY createdTime DESC")
   DataSource.Factory<Integer, DeviceInfo> pageSizeVideo();
 }

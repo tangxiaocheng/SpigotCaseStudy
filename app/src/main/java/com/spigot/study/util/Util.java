@@ -1,14 +1,20 @@
 package com.spigot.study.util;
 
+import static com.spigot.study.util.SpigotConstant.DEVICE_INFO_MAP;
+
 import android.content.res.Resources;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.spigot.study.model.UrlModel;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 import timber.log.Timber;
 
-public class DeviceUtil {
+public class Util {
 
 
   public static UrlModel extractUrl(String url,
@@ -38,7 +44,7 @@ public class DeviceUtil {
   public static String decodeUrl(String originalUrl) {
     String afterDecode = null;
     try {
-      afterDecode = URLDecoder.decode(originalUrl, "UTF-8");
+      afterDecode = URLDecoder.decode(originalUrl, SpigotConstant.UTF_8);
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
     }
@@ -48,7 +54,7 @@ public class DeviceUtil {
   public static String encodeUrl(String url) {
     String encode = null;
     try {
-      encode = URLEncoder.encode(url, "UTF-8");
+      encode = URLEncoder.encode(url, SpigotConstant.UTF_8);
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
     }
@@ -68,31 +74,17 @@ public class DeviceUtil {
     return Resources.getSystem().getDisplayMetrics().heightPixels;
   }
 
-//  public static String getDeviceInfo() {
-//    String details = "VERSION.RELEASE : " + Build.VERSION.RELEASE
-//        + "\nVERSION.INCREMENTAL : " + Build.VERSION.INCREMENTAL
-//        + "\nVERSION.SDK.NUMBER : " + Build.VERSION.SDK_INT
-//        + "\nBOARD : " + Build.BOARD
-//        + "\nBOOTLOADER : " + Build.BOOTLOADER
-//        + "\nBRAND : " + Build.BRAND
-//        + "\nCPU_ABI : " + Build.CPU_ABI
-//        + "\nCPU_ABI2 : " + Build.CPU_ABI2
-//        + "\nDISPLAY : " + Build.DISPLAY
-//        + "\nFINGERPRINT : " + Build.FINGERPRINT
-//        + "\nHARDWARE : " + Build.HARDWARE
-//        + "\nHOST : " + Build.HOST
-//        + "\nID : " + Build.ID
-//        + "\nMANUFACTURER : " + Build.MANUFACTURER
-//        + "\nMODEL : " + Build.MODEL
-//        + "\nPRODUCT : " + Build.PRODUCT
-//        + "\nSERIAL : " + Build.SERIAL
-//        + "\nTAGS : " + Build.TAGS
-//        + "\nTIME : " + Build.TIME
-//        + "\nTYPE : " + Build.TYPE
-//        + "\nUNKNOWN : " + Build.UNKNOWN
-//        + "\nUSER : " + Build.USER;
-//
-//    return details;
-//  }
+  public static HashMap<String, String> jsonToMap(String jsonString) {
+    Gson gson = new Gson();
+    Type type = new TypeToken<HashMap<String, String>>() {
+    }.getType();
+    return gson.fromJson(jsonString, type);
+  }
+
+  public static Map<String, String> getDeviceInfoModel(String androidId) {
+    Map<String, String> map = new HashMap<>(DEVICE_INFO_MAP);
+    map.put(SpigotConstant.ANDROID_ID, androidId);
+    return map;
+  }
 
 }

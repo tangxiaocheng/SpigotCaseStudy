@@ -3,6 +3,7 @@ package com.spigot.study.network;
 import android.content.Context;
 import com.chuckerteam.chucker.api.ChuckerCollector;
 import com.chuckerteam.chucker.api.ChuckerInterceptor;
+import com.chuckerteam.chucker.api.ChuckerInterceptor.Builder;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -17,9 +18,10 @@ public class RetrofitInstance {
   private RetrofitInstance(Context context) {
 
     ChuckerCollector chuckerCollector = new ChuckerCollector(context);
+    ChuckerInterceptor chuckerInterceptor = new Builder(context).alwaysReadResponseBody(true)
+        .collector(chuckerCollector).build();
     OkHttpClient client = new OkHttpClient.Builder()
-        .addInterceptor(new ChuckerInterceptor.Builder(context).alwaysReadResponseBody(true)
-            .collector(chuckerCollector).build())
+        .addInterceptor(chuckerInterceptor)
         .build();
 
     retrofit = new Retrofit.Builder().client(client)

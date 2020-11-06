@@ -6,8 +6,7 @@ import android.content.Context;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import com.spigot.study.model.UrlModel;
-import com.spigot.study.util.DeviceUtil;
-import java.util.HashMap;
+import com.spigot.study.util.Util;
 import java.util.LinkedHashMap;
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,20 +32,20 @@ public class ExampleInstrumentedTest {
 
   @Test
   public void extractUrlIsCorrect() {
-    UrlModel expected = DeviceUtil.extractUrl(originalUrl, new LinkedHashMap<>());
+    UrlModel expected = Util.extractUrl(originalUrl, new LinkedHashMap<>());
     Timber.d(expected.getParaMap().toString());
     Assert.assertEquals(expected.toUrl(), originalUrl);
   }
 
   @Test
   public void encodeAndDecodeIsCorrect() {
-    String encodeUrl = DeviceUtil.encodeUrl(originalUrl);
-    Assert.assertEquals(DeviceUtil.decodeUrl(encodeUrl), originalUrl);
+    String encodeUrl = Util.encodeUrl(originalUrl);
+    Assert.assertEquals(Util.decodeUrl(encodeUrl), originalUrl);
   }
 
   @Test
   public void printDeviceInfo() {
-    System.out.println(DeviceUtil.getDeviceInfo());
+    System.out.println(Util.getDeviceInfo());
   }
 
 

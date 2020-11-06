@@ -2,7 +2,6 @@ package com.spigot.study.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.paging.PagedListAdapter;
@@ -15,8 +14,8 @@ public class DeviceInfoListAdapter extends
     PagedListAdapter<DeviceInfo, RecyclerView.ViewHolder> {
 
   private final OnItemClickListener onItemClickListener;
-  private static final int TYPE_LEFT = 0;
-  private static final int TYPE_RIGHT = 1;
+  public static final int TYPE_LEFT = 0;
+  public static final int TYPE_RIGHT = 1;
   private final LayoutInflater layoutInflater;
 
   public DeviceInfoListAdapter(
@@ -31,12 +30,12 @@ public class DeviceInfoListAdapter extends
   public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     switch (viewType) {
       case TYPE_LEFT: {
-        View itemView = layoutInflater.inflate(R.layout.device_info_list_item_left, parent, false);
-        return new LeftViewHolder(onItemClickListener, itemView);
+        return new LeftViewHolder(onItemClickListener,
+            layoutInflater.inflate(R.layout.device_info_list_item_left, parent, false));
       }
       case TYPE_RIGHT: {
-        View itemView = layoutInflater.inflate(R.layout.device_info_list_item_right, parent, false);
-        return new RightViewHolder(onItemClickListener, itemView);
+        return new RightViewHolder(onItemClickListener,
+            layoutInflater.inflate(R.layout.device_info_list_item_right, parent, false));
       }
       default:
         throw new IllegalArgumentException("Invalid view type");
@@ -80,6 +79,5 @@ public class DeviceInfoListAdapter extends
   public int getItemViewType(int position) {
     return getCurrentList().get(position).getViewType();
   }
-
 
 }

@@ -8,11 +8,9 @@ public class DeviceInfoRepository {
   private final DeviceInfoDao deviceInfoDao;
 
   public DeviceInfoRepository(Context context) {
-    SpigotDatabase db = SpigotDatabase
-        .getDataBase(context);
+    SpigotDatabase db = SpigotDatabase.getDataBase(context);
     deviceInfoDao = db.deviceInfoDao();
   }
-
 
   public void insert(DeviceInfo deviceInfo) {
     SpigotDatabase.databaseWriteExecutor.execute(() -> deviceInfoDao.insert(deviceInfo));

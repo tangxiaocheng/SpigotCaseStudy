@@ -1,6 +1,6 @@
 package com.spigot.study;
 
-import static com.spigot.study.util.SpigotConstant.DEVICE_INFO_MAP;
+import static com.spigot.study.adapter.DeviceInfoListAdapter.TYPE_LEFT;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -22,7 +22,8 @@ import com.spigot.study.adapter.OnItemClickListener;
 import com.spigot.study.data.DeviceInfo;
 import com.spigot.study.data.DeviceInfoRepository;
 import com.spigot.study.model.UrlModel;
-import com.spigot.study.util.DeviceUtil;
+import com.spigot.study.util.SpigotConstant;
+import com.spigot.study.util.Util;
 import com.spigot.study.viewmodel.DeviceInfoListViewModel;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,40 +33,37 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
     OnItemClickListener {
 
   private TextInputEditText urlTextInputEditText;
-  private TextView deviceInfoTv;
   private String androidId;
   private Map<String, String> deviceInfoModel;
   private DeviceInfoListViewModel deviceInfoListViewModel;
-  public static final String KEY_JSON = "Json";
+  private TextView deviceInfoTv;
+  private RecyclerView savedUrlsRv;
 
   @SuppressLint("HardwareIds")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    deviceInfoModel = getDeviceInfoModel(androidId);
+    deviceInfoModel = Util.getDeviceInfoModel(androidId);
     androidId = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
-    initView();
 
+    findView();
+    bindData();
   }
 
-  public static Map<String, String> getDeviceInfoModel(String androidId) {
-    Map<String, String> map = new HashMap<>(DEVICE_INFO_MAP);
-    map.put("androidID", androidId);
-    return map;
-  }
 
-  private void initView() {
+  private void findView() {
     setContentView(R.layout.activity_main);
     deviceInfoTv = findViewById(R.id.device_info_tv);
     urlTextInputEditText = findViewById(R.id.url_input_et);
-    deviceInfoTv.setText(deviceInfoModel.toString());
-
-    RecyclerView savedUrlsRv = findViewById(R.id.saved_urls_rv);
+    savedUrlsRv = findViewById(R.id.saved_urls_rv);
     findViewById(R.id.save_button).setOnClickListener(this);
+  }
 
+
+  private void bindData() {
+    deviceInfoTv.setText(deviceInfoModel.toString());
     ViewModelProvider viewModelProvider = new ViewModelProvider(this);
-    DeviceInfoListAdapter adapter = new DeviceInfoListAdapter(this,
-        getApplicationContext());
+    DeviceInfoListAdapter adapter = new DeviceInfoListAdapter(this, getApplicationContext());
     LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
     adapter.registerAdapterDataObserver(new AdapterDataObserver() {
       @Override
@@ -82,47 +80,48 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
         adapter.submitList(pagedList);
       }
     });
-
   }
-
 
   @Override
   public void onClick(View view) {
-    if (isValid(urlTextInputEditText)) {
-      String originalUrl = urlTextInputEditText.getText().toString();
-      UrlModel urlModel = null;
-      final Map<String, String> map = new HashMap<>(deviceInfoModel);
-      if (!URLUtil.isValidUrl(originalUrl)) {
-        String decodeUrl = DeviceUtil.decodeUrl(originalUrl);
-        if (URLUtil.isValidUrl(decodeUrl)) {
-          urlModel = DeviceUtil.extractUrl(decodeUrl, map);
-          insertModeLToDB(deviceInfoListViewModel.getDeviceInfoRepository(), urlModel);
-        } else {
-          Timber.e("Invalid url");
-        }
-      } else {
-        urlModel = DeviceUtil.extractUrl(originalUrl, map);
-        insertModeLToDB(deviceInfoListViewModel.getDeviceInfoRepository(), urlModel);
-      }
+    if (urlTextInputEditText.getText().length() > 0) {
+      decodeUrl();
     }
   }
 
-  private void insertModeLToDB(DeviceInfoRepository deviceInfoRepository, UrlModel urlModel) {
+  private void decodeUrl() {
+    String originalUrl = urlTextInputEditText.getText().toString();
+    UrlModel urlModel;
+    final Map<String, String> map = new HashMap<>(deviceInfoModel);
+    if (!URLUtil.isValidUrl(originalUrl)) {
+      String decodeUrl = Util.decodeUrl(originalUrl);
+      if (URLUtil.isValidUrl(decodeUrl)) {
+        urlModel = Util.extractUrl(decodeUrl, map);
+        insertParasToDB(deviceInfoListViewModel.getDeviceInfoRepository(), urlModel);
+      } else {
+        Timber.e("Invalid url");
+      }
+    } else {
+      urlModel = Util.extractUrl(originalUrl, map);
+      insertParasToDB(deviceInfoListViewModel.getDeviceInfoRepository(), urlModel);
+    }
+  }
+
+  private void insertParasToDB(DeviceInfoRepository deviceInfoRepository, UrlModel urlModel) {
     deviceInfoRepository.insert(new DeviceInfo(urlModel.getBaseUrl(),
         new Gson().toJson(urlModel.getParaMap()),
         System.currentTimeMillis()));
   }
 
-  public boolean isValid(TextInputEditText urlTextInputEditText) {
-    return urlTextInputEditText.getText().length() > 0;
-  }
-
   @Override
   public void onItemClick(DeviceInfo deviceInfo) {
-
-    Intent intent = new Intent(this, PostActivity.class);
-    intent.putExtra(KEY_JSON, deviceInfo.getJson());
+    Intent intent;
+    if (deviceInfo.getViewType() == TYPE_LEFT) {
+      intent = new Intent(this, LeftPostActivity.class);
+    } else {
+      intent = new Intent(this, RightPostActivity.class);
+    }
+    intent.putExtra(SpigotConstant.KEY_JSON, deviceInfo.getJson());
     startActivity(intent);
-
   }
 }
