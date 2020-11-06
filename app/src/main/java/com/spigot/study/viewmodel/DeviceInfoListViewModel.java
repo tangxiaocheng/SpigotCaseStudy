@@ -1,4 +1,4 @@
-package com.spigot.study.adapter;
+package com.spigot.study.viewmodel;
 
 import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
@@ -27,7 +27,6 @@ public class DeviceInfoListViewModel extends AndroidViewModel {
         .setInitialLoadSizeHint(10).setPageSize(10).build();
     liveDataOfPagedList = new LivePagedListBuilder<>(deviceInfoRepository.liveDataOfPagedList(),
         config).build();
-
   }
 
   public LiveData<PagedList<DeviceInfo>> getLiveDataOfPagedList() {

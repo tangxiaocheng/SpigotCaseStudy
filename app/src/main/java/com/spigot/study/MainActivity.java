@@ -1,13 +1,13 @@
 package com.spigot.study;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.URLUtil;
-import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,26 +16,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
 import com.google.android.material.textfield.TextInputEditText;
 import com.spigot.study.adapter.DeviceInfoListAdapter;
-import com.spigot.study.adapter.DeviceInfoListViewModel;
+import com.spigot.study.adapter.OnItemClickListener;
 import com.spigot.study.data.DeviceInfo;
 import com.spigot.study.data.DeviceInfoRepository;
 import com.spigot.study.model.DeviceInfoModel;
-import com.spigot.study.model.HeaderModel;
 import com.spigot.study.model.UrlModel;
-import com.spigot.study.network.NetworkService;
-import com.spigot.study.network.ResponseModel;
-import com.spigot.study.network.RetrofitInstance;
 import com.spigot.study.util.DeviceUtil;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import timber.log.Timber;
+import com.spigot.study.viewmodel.DeviceInfoListViewModel;
 
-public class MainActivity extends AppCompatActivity implements OnClickListener {
+public class MainActivity extends AppCompatActivity implements OnClickListener,
+    OnItemClickListener {
 
-  private Button saveButton;
   private TextInputEditText urlTextInputEditText;
-  private RecyclerView savedUrlsRv;
   private TextView deviceInfoTv;
   private String androidId;
   private DeviceInfoModel deviceInfoModel;
@@ -46,9 +38,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     initView();
-    androidId = Secure
-        .getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
-
+    androidId = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
     deviceInfoModel = getDeviceInfoModel(androidId);
   }
 
@@ -60,14 +50,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
   private void initView() {
     setContentView(R.layout.activity_main);
-    saveButton = findViewById(R.id.save_button);
     deviceInfoTv = findViewById(R.id.device_info_tv);
     urlTextInputEditText = findViewById(R.id.url_input_et);
-    savedUrlsRv = findViewById(R.id.saved_urls_rv);
-    saveButton.setOnClickListener(this);
+    RecyclerView savedUrlsRv = findViewById(R.id.saved_urls_rv);
+    findViewById(R.id.save_button).setOnClickListener(this);
 
     ViewModelProvider viewModelProvider = new ViewModelProvider(this);
-    DeviceInfoListAdapter adapter = new DeviceInfoListAdapter(getApplicationContext());
+    DeviceInfoListAdapter adapter = new DeviceInfoListAdapter(this,
+        getApplicationContext());
     LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
     adapter.registerAdapterDataObserver(new AdapterDataObserver() {
       @Override
@@ -78,8 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     });
     savedUrlsRv.setLayoutManager(manager);
     savedUrlsRv.setAdapter(adapter);
-    deviceInfoListViewModel = viewModelProvider
-        .get(DeviceInfoListViewModel.class);
+    deviceInfoListViewModel = viewModelProvider.get(DeviceInfoListViewModel.class);
     deviceInfoListViewModel.getLiveDataOfPagedList().observe(this, pagedList -> {
       if (pagedList != null) {
         adapter.submitList(pagedList);
@@ -100,22 +89,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         insertModeLToDB(deviceInfoListViewModel.getDeviceInfoRepository(), urlModel,
             deviceInfoModel);
 //        urlTextInputEditText.setText("");
-        NetworkService networkService = RetrofitInstance.getInstance(this).getRetrofit()
-            .create(NetworkService.class);
-        networkService
-            .postInstallInfo(new HeaderModel(deviceInfoModel, urlModel.getPairList())).enqueue(
-            new Callback<ResponseModel>() {
-              @Override
-              public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                Timber.d("Randy%s", response.toString());
-                Timber.d("Randy%s", response.body().getRequest());
-              }
 
-              @Override
-              public void onFailure(Call<ResponseModel> call, Throwable t) {
-
-              }
-            });
       }
     }
   }
@@ -129,5 +103,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
   public boolean isValid(TextInputEditText urlTextInputEditText) {
     return urlTextInputEditText.getText().length() > 0;
+  }
+
+  @Override
+  public void onItemClick(DeviceInfo deviceInfo) {
+
+    Intent intent = new Intent(this, PostActivity.class);
+//    intent.putExtra("Data",  "deviceInfo_TODo)");
+    //TODO
+    startActivity(intent);
+
   }
 }

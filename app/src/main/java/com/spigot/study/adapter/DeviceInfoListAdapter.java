@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,13 +14,15 @@ import com.spigot.study.util.SpigotConstant;
 public class DeviceInfoListAdapter extends
     PagedListAdapter<DeviceInfo, RecyclerView.ViewHolder> {
 
+  private final OnItemClickListener onItemClickListener;
   private static final int TYPE_LEFT = 0;
   private static final int TYPE_RIGHT = 1;
   private final LayoutInflater layoutInflater;
 
   public DeviceInfoListAdapter(
-      Context context) {
+      OnItemClickListener onItemClickListener, Context context) {
     super(SpigotConstant.DIFF_ITEM_CALLBACK);
+    this.onItemClickListener = onItemClickListener;
     this.layoutInflater = LayoutInflater.from(context);
   }
 
@@ -32,11 +32,11 @@ public class DeviceInfoListAdapter extends
     switch (viewType) {
       case TYPE_LEFT: {
         View itemView = layoutInflater.inflate(R.layout.device_info_list_item_left, parent, false);
-        return new LeftViewHolder(itemView);
+        return new LeftViewHolder(onItemClickListener, itemView);
       }
       case TYPE_RIGHT: {
         View itemView = layoutInflater.inflate(R.layout.device_info_list_item_right, parent, false);
-        return new RightViewHolder(itemView);
+        return new RightViewHolder(onItemClickListener, itemView);
       }
       default:
         throw new IllegalArgumentException("Invalid view type");
@@ -56,7 +56,6 @@ public class DeviceInfoListAdapter extends
         break;
       }
     }
-
   }
 
   private void bindLeftData(@NonNull LeftViewHolder holder,
@@ -82,52 +81,5 @@ public class DeviceInfoListAdapter extends
     return getCurrentList().get(position).getViewType();
   }
 
-  static class LeftViewHolder extends RecyclerView.ViewHolder {
-
-    TextView infoTv;
-    Button postBtn;
-    TextView postResponseTv;
-
-    public LeftViewHolder(@NonNull View itemView) {
-      super(itemView);
-      infoTv = itemView.findViewById(R.id.info_tv);
-      postBtn = itemView.findViewById(R.id.post);
-      postResponseTv = itemView.findViewById(R.id.post_response_tv);
-    }
-
-    public void bindData(DeviceInfo deviceInfo) {
-      infoTv.setText(deviceInfo.getJson());
-    }
-
-    public void clear() {
-      infoTv.invalidate();
-      postBtn.invalidate();
-      postResponseTv.invalidate();
-    }
-  }
-
-  static class RightViewHolder extends RecyclerView.ViewHolder {
-
-    TextView infoTv;
-    Button postBtn;
-    TextView postResponseTv;
-
-    public RightViewHolder(@NonNull View itemView) {
-      super(itemView);
-      infoTv = itemView.findViewById(R.id.info_tv);
-      postBtn = itemView.findViewById(R.id.post);
-      postResponseTv = itemView.findViewById(R.id.post_response_tv);
-    }
-
-    public void bindData(DeviceInfo deviceInfo) {
-      infoTv.setText(deviceInfo.getId() + ":" + deviceInfo.getJson());
-    }
-
-    public void clear() {
-      infoTv.invalidate();
-      postBtn.invalidate();
-      postResponseTv.invalidate();
-    }
-  }
 
 }
