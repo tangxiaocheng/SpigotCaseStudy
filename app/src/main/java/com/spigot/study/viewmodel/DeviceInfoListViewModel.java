@@ -18,6 +18,7 @@ public class DeviceInfoListViewModel extends AndroidViewModel {
 
   private final DeviceInfoRepository deviceInfoRepository;
 
+  //test
   public DeviceInfoListViewModel(Application application) {
     super(application);
     deviceInfoRepository = new DeviceInfoRepository(application);
