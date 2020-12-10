@@ -1,6 +1,5 @@
 package com.spigot.study;
 
-
 import static org.hamcrest.core.IsEqual.equalTo;
 
 import android.content.Context;
@@ -43,13 +42,12 @@ public class DeviceInfoEntityReadWriteTest {
     Assert.assertThat(list.get(0).getBaseUrl(), equalTo(deviceInfo.getBaseUrl()));
   }
 
-
   @Test
   public void insertALot() {
     int times = 50;
     for (int i = 0; i < times; i++) {
-      DeviceInfo deviceInfo = new DeviceInfo("www.hello.com", "this is ",
-          System.currentTimeMillis());
+      DeviceInfo deviceInfo =
+          new DeviceInfo("www.hello.com", "this is ", System.currentTimeMillis());
       deviceInfoDao.insert(deviceInfo);
     }
     List<DeviceInfo> list = deviceInfoDao.getList();

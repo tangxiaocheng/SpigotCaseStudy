@@ -19,7 +19,6 @@ public class ResponseModel {
 
   Map<String, String> request;
 
-
   public boolean isSuccessful() {
     return successful;
   }
@@ -36,11 +35,9 @@ public class ResponseModel {
     this.errorMsg = errorMsg;
   }
 
-
   @NonNull
   @Override
   public String toString() {
     return Util.prettyJson(this);
   }
-
 }

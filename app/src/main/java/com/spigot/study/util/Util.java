@@ -19,9 +19,7 @@ import timber.log.Timber;
 
 public class Util {
 
-
-  public static UrlModel extractUrl(String url,
-      final Map<String, String> map) {
+  public static UrlModel extractUrl(String url, final Map<String, String> map) {
     UrlModel urlModel = new UrlModel();
     if (null != url && !"".equals(url)) {
       int pos = url.indexOf("?");
@@ -38,7 +36,6 @@ public class Util {
       } else {
         Timber.e("no parameters or invalid url");
       }
-
     }
     urlModel.setParaMap(map);
     return urlModel;
@@ -64,7 +61,6 @@ public class Util {
     return encode;
   }
 
-
   public static String getScreenMetrics() {
     return getScreenWidth() + "*" + getScreenHeight();
   }
@@ -79,8 +75,7 @@ public class Util {
 
   public static HashMap<String, String> jsonToMap(String jsonString) {
     Gson gson = new Gson();
-    Type type = new TypeToken<HashMap<String, String>>() {
-    }.getType();
+    Type type = new TypeToken<HashMap<String, String>>() {}.getType();
     return gson.fromJson(jsonString, type);
   }
 
@@ -95,7 +90,7 @@ public class Util {
   }
 
   @SuppressLint("HardwareIds")
-  public   static String getAndroidID(ContentResolver resolver) {
+  public static String getAndroidID(ContentResolver resolver) {
     return Secure.getString(resolver, Secure.ANDROID_ID);
   }
 }

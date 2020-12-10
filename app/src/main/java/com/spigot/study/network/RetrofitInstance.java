@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitInstance {
 
-  private volatile static RetrofitInstance instance;
+  private static volatile RetrofitInstance instance;
   public static final String BASE_URL = "https://casestudy.alltheapps.org/";
   private final Retrofit retrofit;
 
@@ -22,17 +22,20 @@ public class RetrofitInstance {
 
     if (BuildConfig.DEBUG) {
       ChuckerCollector chuckerCollector = new ChuckerCollector(context);
-      ChuckerInterceptor chuckerInterceptor = new Builder(context).alwaysReadResponseBody(true)
-          .collector(chuckerCollector).build();
+      ChuckerInterceptor chuckerInterceptor =
+          new Builder(context).alwaysReadResponseBody(true).collector(chuckerCollector).build();
       builder.addInterceptor(chuckerInterceptor);
     }
 
     OkHttpClient client = builder.build();
 
-    retrofit = new Retrofit.Builder().client(client)
-        .baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .build();
+    retrofit =
+        new Retrofit.Builder()
+            .client(client)
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build();
   }
 
   public static RetrofitInstance getInstance(Context context) {
@@ -49,5 +52,4 @@ public class RetrofitInstance {
   public Retrofit getRetrofit() {
     return retrofit;
   }
-
 }

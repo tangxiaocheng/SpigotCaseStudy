@@ -33,7 +33,6 @@ public class LeftPostActivity extends AppCompatActivity implements Callback<Resp
     post();
   }
 
-
   private void post() {
     Retrofit retrofit = RetrofitInstance.getInstance(this.getApplicationContext()).getRetrofit();
     NetworkService networkService = retrofit.create(NetworkService.class);
@@ -42,8 +41,8 @@ public class LeftPostActivity extends AppCompatActivity implements Callback<Resp
   }
 
   @Override
-  public void onResponse(@NonNull Call<ResponseModel> call,
-      @NonNull Response<ResponseModel> response) {
+  public void onResponse(
+      @NonNull Call<ResponseModel> call, @NonNull Response<ResponseModel> response) {
     if (response.isSuccessful()) {
       displayTv.setText(Util.prettyJson(Objects.requireNonNull(response.body()).getRequest()));
     } else {
@@ -52,7 +51,5 @@ public class LeftPostActivity extends AppCompatActivity implements Callback<Resp
   }
 
   @Override
-  public void onFailure(@NonNull Call<ResponseModel> call, @NonNull Throwable t) {
-
-  }
+  public void onFailure(@NonNull Call<ResponseModel> call, @NonNull Throwable t) {}
 }

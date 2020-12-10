@@ -16,8 +16,7 @@ class RightViewHolder extends RecyclerView.ViewHolder {
   private final TextView infoTv;
   private final Button postBtn;
 
-  public RightViewHolder(OnItemClickListener onItemClickListener,
-      @NonNull View itemView) {
+  public RightViewHolder(OnItemClickListener onItemClickListener, @NonNull View itemView) {
     super(itemView);
     this.onItemClickListener = onItemClickListener;
     infoTv = itemView.findViewById(R.id.info_tv);

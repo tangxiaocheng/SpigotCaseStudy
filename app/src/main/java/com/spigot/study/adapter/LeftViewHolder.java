@@ -17,14 +17,12 @@ class LeftViewHolder extends RecyclerView.ViewHolder {
   private final Button postBtn;
   private final Button formatBtn;
 
-  public LeftViewHolder(OnItemClickListener onItemClickListener,
-      @NonNull View itemView) {
+  public LeftViewHolder(OnItemClickListener onItemClickListener, @NonNull View itemView) {
     super(itemView);
     this.onItemClickListener = onItemClickListener;
     infoTv = itemView.findViewById(R.id.info_tv);
     postBtn = itemView.findViewById(R.id.post);
     formatBtn = itemView.findViewById(R.id.format);
-
   }
 
   public void bindData(DeviceInfo deviceInfo) {
@@ -32,10 +30,11 @@ class LeftViewHolder extends RecyclerView.ViewHolder {
     infoTv.setText(deviceInfo.getJson());
     if (onItemClickListener != null) {
       postBtn.setOnClickListener(view -> onItemClickListener.onItemClick(deviceInfo));
-      formatBtn.setOnClickListener(view -> {
-        HashMap<String, String> map = Util.jsonToMap(deviceInfo.getJson());
-        infoTv.setText(Util.prettyJson(map));
-      });
+      formatBtn.setOnClickListener(
+          view -> {
+            HashMap<String, String> map = Util.jsonToMap(deviceInfo.getJson());
+            infoTv.setText(Util.prettyJson(map));
+          });
     }
   }
 
