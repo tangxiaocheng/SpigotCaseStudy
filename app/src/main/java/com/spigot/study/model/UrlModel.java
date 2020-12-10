@@ -33,5 +33,4 @@ public class UrlModel {
     sb.deleteCharAt(sb.length() - 1);
     return sb.toString();
   }
-
 }

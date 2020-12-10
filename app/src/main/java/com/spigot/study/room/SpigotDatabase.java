@@ -21,13 +21,11 @@ public abstract class SpigotDatabase extends RoomDatabase {
       Executors.newFixedThreadPool(NUMBER_OF_THREADS);
   private static volatile SpigotDatabase INSTANCE;
 
-
   static SpigotDatabase getDataBase(final Context context) {
     if (INSTANCE == null) {
       synchronized ((SpigotDatabase.class)) {
         if (INSTANCE == null) {
-          INSTANCE =
-              Room.databaseBuilder(context, SpigotDatabase.class, VIDEO_DB).build();
+          INSTANCE = Room.databaseBuilder(context, SpigotDatabase.class, VIDEO_DB).build();
         }
       }
     }

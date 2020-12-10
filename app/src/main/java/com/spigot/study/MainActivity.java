@@ -18,9 +18,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.spigot.study.adapter.DeviceInfoListAdapter;
 import com.spigot.study.adapter.OnItemClickListener;
+import com.spigot.study.model.UrlModel;
 import com.spigot.study.room.DeviceInfo;
 import com.spigot.study.room.DeviceInfoRepository;
-import com.spigot.study.model.UrlModel;
 import com.spigot.study.util.SpigotConstant;
 import com.spigot.study.util.Util;
 import com.spigot.study.viewmodel.DeviceInfoListViewModel;
@@ -29,8 +29,8 @@ import java.util.Map;
 import java.util.Objects;
 import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity implements OnClickListener,
-    OnItemClickListener {
+public class MainActivity extends AppCompatActivity
+    implements OnClickListener, OnItemClickListener {
 
   private TextInputEditText urlTextInputEditText;
   private Map<String, String> deviceInfoMap;
@@ -41,11 +41,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    deviceInfoMap = Util.getDeviceInfoModel(Util.getAndroidID(getApplicationContext().getContentResolver()));
+    deviceInfoMap =
+        Util.getDeviceInfoModel(Util.getAndroidID(getApplicationContext().getContentResolver()));
     findView();
     bindData();
   }
-
 
   private void findView() {
     setContentView(R.layout.activity_main);
@@ -55,27 +55,31 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
     findViewById(R.id.parse_button).setOnClickListener(this);
   }
 
-
   private void bindData() {
     deviceInfoTv.setText(String.format("Device Info:\n%s", deviceInfoMap.toString()));
     ViewModelProvider viewModelProvider = new ViewModelProvider(this);
     DeviceInfoListAdapter adapter = new DeviceInfoListAdapter(this, getApplicationContext());
     LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
-    adapter.registerAdapterDataObserver(new AdapterDataObserver() {
-      @Override
-      public void onItemRangeInserted(int positionStart, int itemCount) {
-        super.onItemRangeInserted(positionStart, itemCount);
-        manager.scrollToPosition(0);
-      }
-    });
+    adapter.registerAdapterDataObserver(
+        new AdapterDataObserver() {
+          @Override
+          public void onItemRangeInserted(int positionStart, int itemCount) {
+            super.onItemRangeInserted(positionStart, itemCount);
+            manager.scrollToPosition(0);
+          }
+        });
     savedUrlsRv.setLayoutManager(manager);
     savedUrlsRv.setAdapter(adapter);
     deviceInfoListViewModel = viewModelProvider.get(DeviceInfoListViewModel.class);
-    deviceInfoListViewModel.getLiveDataOfPagedList().observe(this, pagedList -> {
-      if (pagedList != null) {
-        adapter.submitList(pagedList);
-      }
-    });
+    deviceInfoListViewModel
+        .getLiveDataOfPagedList()
+        .observe(
+            this,
+            pagedList -> {
+              if (pagedList != null) {
+                adapter.submitList(pagedList);
+              }
+            });
   }
 
   @Override
@@ -106,9 +110,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
   }
 
   private void insertParasToDB(DeviceInfoRepository deviceInfoRepository, UrlModel urlModel) {
-    deviceInfoRepository.insert(new DeviceInfo(urlModel.getBaseUrl(),
-        new Gson().toJson(urlModel.getParaMap()),
-        System.currentTimeMillis()));
+    deviceInfoRepository.insert(
+        new DeviceInfo(
+            urlModel.getBaseUrl(),
+            new Gson().toJson(urlModel.getParaMap()),
+            System.currentTimeMillis()));
   }
 
   @Override

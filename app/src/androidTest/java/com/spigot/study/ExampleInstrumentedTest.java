@@ -21,7 +21,8 @@ import timber.log.Timber;
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
 
-  String originalUrl = "https://m.alltheapps.org/get/app?userId=B1C92850-8202-44AC-B514-1849569F37B6&implementationid=cl-and-erp&trafficSource=erp&userClass=20200101";
+  String originalUrl =
+      "https://m.alltheapps.org/get/app?userId=B1C92850-8202-44AC-B514-1849569F37B6&implementationid=cl-and-erp&trafficSource=erp&userClass=20200101";
 
   @Test
   public void useAppContext() {
@@ -42,6 +43,4 @@ public class ExampleInstrumentedTest {
     String encodeUrl = Util.encodeUrl(originalUrl);
     Assert.assertEquals(Util.decodeUrl(encodeUrl), originalUrl);
   }
-
-
 }

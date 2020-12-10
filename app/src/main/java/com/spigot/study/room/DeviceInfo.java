@@ -36,7 +36,7 @@ public class DeviceInfo {
   }
 
   public int getViewType() {
-    //fake view type
+    // fake view type
     return id % 2;
   }
 

@@ -25,33 +25,35 @@ public class SpigotConstant {
   public static final String KEY_JSON = "Json";
   public static final String UTF_8 = "UTF-8";
 
-  public static final DiffUtil.ItemCallback<DeviceInfo> DIFF_ITEM_CALLBACK = new DiffUtil.ItemCallback<DeviceInfo>() {
-    @Override
-    public boolean areItemsTheSame(@NonNull DeviceInfo oldItem, @NonNull DeviceInfo newItem) {
-      return oldItem.getId() == newItem.getId();
-    }
+  public static final DiffUtil.ItemCallback<DeviceInfo> DIFF_ITEM_CALLBACK =
+      new DiffUtil.ItemCallback<DeviceInfo>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull DeviceInfo oldItem, @NonNull DeviceInfo newItem) {
+          return oldItem.getId() == newItem.getId();
+        }
 
-    @Override
-    public boolean areContentsTheSame(@NonNull DeviceInfo oldItem, @NonNull DeviceInfo newItem) {
-      return oldItem.equals(newItem);
-    }
-  };
+        @Override
+        public boolean areContentsTheSame(
+            @NonNull DeviceInfo oldItem, @NonNull DeviceInfo newItem) {
+          return oldItem.equals(newItem);
+        }
+      };
 
-
-  public static final Map<String, String> DEVICE_INFO_MAP = new HashMap<String, String>() {
-    {
-      put(APP_VERSION, String.valueOf(Build.VERSION.SDK_INT));
-      put(DEVICE_BRAND, Build.BRAND);
-      put(DEVICE_MODEL, Build.MODEL);
-      put(DISPLAY, Build.DISPLAY);
-      put(HARDWARE, Build.HARDWARE);
-      put(FINGERPRINT, Build.FINGERPRINT);
-      put(HOST, Build.HOST);
-      put(BUILD_ID, Build.ID);
-      put(BUILD_USER, Build.USER);
-      put(SCREEN, Util.getScreenMetrics());
-    }
-  };
+  public static final Map<String, String> DEVICE_INFO_MAP =
+      new HashMap<String, String>() {
+        {
+          put(APP_VERSION, String.valueOf(Build.VERSION.SDK_INT));
+          put(DEVICE_BRAND, Build.BRAND);
+          put(DEVICE_MODEL, Build.MODEL);
+          put(DISPLAY, Build.DISPLAY);
+          put(HARDWARE, Build.HARDWARE);
+          put(FINGERPRINT, Build.FINGERPRINT);
+          put(HOST, Build.HOST);
+          put(BUILD_ID, Build.ID);
+          put(BUILD_USER, Build.USER);
+          put(SCREEN, Util.getScreenMetrics());
+        }
+      };
 
   public static final Gson PRETTY_GSON = new GsonBuilder().setPrettyPrinting().create();
 }

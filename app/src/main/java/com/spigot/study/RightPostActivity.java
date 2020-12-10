@@ -36,7 +36,8 @@ public class RightPostActivity extends AppCompatActivity {
     Retrofit retrofit = RetrofitInstance.getInstance(this.getApplicationContext()).getRetrofit();
     NetworkService networkService = retrofit.create(NetworkService.class);
     HashMap<String, String> map = Util.jsonToMap(jsonString);
-    networkService.postInstallInfoWithRxJava(map)
+    networkService
+        .postInstallInfoWithRxJava(map)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(RightPostActivity.this)))
@@ -46,5 +47,4 @@ public class RightPostActivity extends AppCompatActivity {
   private void updateUI(ResponseModel responseModel) {
     displayTv.setText(String.format("Response from server:%s", responseModel.toString()));
   }
-
 }

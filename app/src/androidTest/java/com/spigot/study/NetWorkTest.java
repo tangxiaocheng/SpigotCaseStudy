@@ -24,24 +24,22 @@ public class NetWorkTest {
   @Test
   public void networkServiceTest() {
     Context context = ApplicationProvider.getApplicationContext();
-    NetworkService networkService = RetrofitInstance.getInstance(context).getRetrofit()
-        .create(NetworkService.class);
+    NetworkService networkService =
+        RetrofitInstance.getInstance(context).getRetrofit().create(NetworkService.class);
     Map<String, String> map = new HashMap<>(SpigotConstant.DEVICE_INFO_MAP);
     map.put("testKey", "testValue");
     Call<ResponseModel> responseModelCall = networkService.postInstallInfo(map);
-    responseModelCall.enqueue(new Callback<ResponseModel>() {
-      @Override
-      public void onResponse(@NonNull Call<ResponseModel> call,
-          @NonNull Response<ResponseModel> response) {
-        Assert.assertEquals(Objects.requireNonNull(response.body()).getRequest().toString(),
-            map.toString());
-      }
+    responseModelCall.enqueue(
+        new Callback<ResponseModel>() {
+          @Override
+          public void onResponse(
+              @NonNull Call<ResponseModel> call, @NonNull Response<ResponseModel> response) {
+            Assert.assertEquals(
+                Objects.requireNonNull(response.body()).getRequest().toString(), map.toString());
+          }
 
-      @Override
-      public void onFailure(Call<ResponseModel> call, Throwable t) {
-
-      }
-    });
+          @Override
+          public void onFailure(Call<ResponseModel> call, Throwable t) {}
+        });
   }
-
 }
